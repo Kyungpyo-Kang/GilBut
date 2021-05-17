@@ -1,9 +1,9 @@
 from django.contrib import admin
-from MapAPI.models import Node
+from MapAPI.models import GridMap
 
 # Register your models here.
 
-class NodeAdmin(admin.ModelAdmin):
-    list_display = ('nodeID', 'nodeType', 'nodeLat', 'nodeLng')
+class GridMapAdmin(admin.ModelAdmin):
+    list_display = ('gridID', 'gridType', 'gridLat', 'gridLng')
 
-admin.site.register(Node, NodeAdmin)
+admin.site.register(GridMap, GridMapAdmin)

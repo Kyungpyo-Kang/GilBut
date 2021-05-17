@@ -6,19 +6,19 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">nodeID</th>
-      <th scope="col">nodeType</th>
-      <th scope="col">nodeLat</th>
-      <th scope="col">nodeLng</th>
+      <th scope="col">gridID</th>
+      <th scope="col">gridType</th>
+      <th scope="col">gridLat</th>
+      <th scope="col">gridLng</th>
     </tr>
   </thead>
   <tbody>
-     {% for node in nodes.all %}
+     {% for grid in grids.all %}
       <tr>
-        <td>{{node.nodeID}}</td>
-        <td>{{node.nodeType}}</td>
-        <td>{{node.nodeLat}}</td>
-        <td>{{node.nodeLng}}</td>
+        <td>{{grid.gridID}}</td>
+        <td>{{grid.gridType}}</td>
+        <td>{{grid.gridLat}}</td>
+        <td>{{grid.gridLng}}</td>
       </tr>
       {% endfor %}
   </tbody>

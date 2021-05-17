@@ -1,28 +1,8 @@
-from django.shortcuts import render, redirect
-from .models import GridMap
-
-import random
-
-class Node():
-    """A node class for A* Pathfinding"""
-
-    def __init__(self, parent=None, position=None):
-        self.parent = parent
-        self.position = position
-
-        self.g = 0
-        self.h = 0
-        self.f = 0
-
-    def __eq__(self, other):
-        return self.position == other.position
-
 
 def astar(maze, start, end):
     """Returns a list of tuples as a path from the given start to the given end in the given maze"""
 
     # Create start and end node
-    
     start_node = Node(None, start)
     start_node.g = start_node.h = start_node.f = 0
     end_node = Node(None, end)
@@ -57,7 +37,6 @@ def astar(maze, start, end):
             while current is not None:
                 path.append(current.position)
                 current = current.parent
-                print(current)
             return path[::-1] # Return reversed path
 
         # Generate children
@@ -101,90 +80,5 @@ def astar(maze, start, end):
 
             # Add the child to the open list
             open_list.append(child)
-
-
-def home(request):
-    return render(request, 'index.html')
-
-
-def makeGridMap(request):
-    
-    initLat = 37.5727506
-    initLng = 126.9632605
-    originLng = initLng
-    indent = 0.00005
-    seq = 1
-    for i in range(10):
-        
-        for j in range(10):
-            initLat = round(initLat, 10)
-            initLng = round(initLng, 10)
-            grid = GridMap()
-            grid.gridID = seq
-
-            rand = random.randint(1,101)
-            gridType = 0
-            '''
-            if 30 <= rand < 60:
-                gridType = 1
-            elif 60 <= rand <101:
-                gridType= 2 
-            '''
-            if rand > 70:
-                gridType = 1
-            gridLat = str(initLat)
-            gridLng = str(initLng)
-            grid.gridType = gridType
-            grid.gridLat = gridLat
-            grid.gridLng = gridLng
-            grid.gridRow = i
-            grid.gridCol = j
-            
-            grid.save()
-            
-            initLng += indent
-            seq += 1
-            
-        
-        initLat -= indent
-        initLng = originLng
-
-    
-    return redirect('index')
-
-def selectMap(request):
-    grids = GridMap.objects
-    return render(request, 'viewNode.html', {'grids':grids})
-
-def jpsSearch(request):
-    return render(request, 'jpsSearch.html')
-
-def jpsResult(request):
-    
-    grids = GridMap.objects
-    map = []
-    content = []
-    for grid in grids.all():
-        if grid.gridID%10 == 0:
-            content.append(grid.gridType)
-            map.append(content)
-            content = []
-        else:
-            content.append(grid.gridType)
-    
-    startNode = GridMap.objects.filter(gridID=int(request.GET['startNode']))[0]
-    endNode = GridMap.objects.filter(gridID=int(request.GET['endNode']))[0]
-    
-    start = (startNode.gridRow, startNode.gridCol)
-    end = (endNode.gridRow, endNode.gridCol)
-    
-    
-    path = astar(map, start, end)
-    
-    
-    return render(request, 'jpsResult.html', {'results':path, 'map':map})
-    
-
-
 
 
