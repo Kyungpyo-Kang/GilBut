@@ -57,7 +57,7 @@ def astar(maze, start, end):
             while current is not None:
                 path.append(current.position)
                 current = current.parent
-                print(current)
+                
             return path[::-1] # Return reversed path
 
         # Generate children
@@ -180,8 +180,11 @@ def jpsResult(request):
     
     
     path = astar(map, start, end)
-    
-    
+    pathGridId = []
+    for tup in path:
+        pathGridId.append(tup[0]*10+tup[1]+1)
+    # pathGridId는 map의 각 gridID를 담고 있음.
+    print(pathGridId)
     return render(request, 'jpsResult.html', {'results':path, 'map':map})
     
 
